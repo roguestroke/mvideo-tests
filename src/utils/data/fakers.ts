@@ -15,8 +15,6 @@ export const randomString = (start: number = 10, end: number = 20, charSet: stri
   return result;
 };
 
-export const randomBoolean = (): boolean => Math.random() < 0.5;
-
 export const randomDateStr = (): string => {
   const date = new Date();
   date.setDate(date.getDate() + randomNumber(1, 30));

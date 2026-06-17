@@ -4,7 +4,7 @@ import { getDefaultAPIContext } from "../utils/default-context";
 import { getAuthAPIClient } from "../api/auth-api-client";
 import { BookingsApiClient } from "../api/booking-api-client";
 import { Fixtures } from "@playwright/test";
-import { createRandomBooking } from "../utils/booking";
+import { createRandomBooking } from "../utils/data/booking";
 
 export type BookingsFixture = {
   bookingsClient: BookingsApiClient;

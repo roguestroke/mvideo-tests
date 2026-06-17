@@ -1,16 +1,16 @@
 import {
-  randomBoolean,
   randomDateStr,
   randomNumber,
   randomString,
-} from "../utils/fakers";
-import { UpdateBooking, Booking } from "../types/booking.types";
+} from "./fakers";
+import { faker } from "@faker-js/faker";
+import { UpdateBooking, Booking } from "../../types/booking.types";
 
 export const createRandomBooking = (): Booking => ({
-  firstname: randomString(5, 10),
-  lastname: randomString(5, 12),
+  firstname: faker.person.firstName(),
+  lastname: faker.person.lastName(),
   totalprice: randomNumber(50, 500),
-  depositpaid: randomBoolean(),
+  depositpaid: faker.datatype.boolean(),
   bookingdates: {
     checkin: randomDateStr(),
     checkout: randomDateStr(),
@@ -19,10 +19,10 @@ export const createRandomBooking = (): Booking => ({
 });
 
 export const createRandomUpdateBooking = (): UpdateBooking => ({
-  firstname: randomString(5, 10),
-  lastname: randomString(5, 12),
+  firstname: faker.person.firstName(),
+  lastname: faker.person.lastName(),
   totalprice: randomNumber(50, 500),
-  depositpaid: randomBoolean(),
+  depositpaid: faker.datatype.boolean(),
   bookingdates: {
     checkin: randomDateStr(),
     checkout: randomDateStr(),
