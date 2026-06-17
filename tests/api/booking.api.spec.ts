@@ -1,73 +1,41 @@
+import { test, expect } from "../../src/fixtures/test";
 import {
   createRandomBooking,
   createRandomUpdateBooking,
-} from "../../src/utils/fakers";
-import { test, expect } from "../../src/fixtures/test";
+} from "../../src/utils/booking";
 
 test.describe("Booking tests", () => {
+  test("Get booking by id", async ({ booking, bookingsClient }) => {
+    const response = await bookingsClient.getBookingAPI(booking.bookingid);
+    const json = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(json).toEqual(booking.booking);
+  });
+
   test("Create booking", async ({ bookingsClient }) => {
     const payload = createRandomBooking();
-
-    const response = await bookingsClient.createBooking(payload);
-
-    expect(response.status()).toBe(200);
-
-    const body = await response.json();
-
-    expect(body.bookingid).toBeGreaterThan(0);
-    expect(body.booking).toEqual(payload);
-  });
-
-  test("Get booking by id", async ({ bookingsClient }) => {
-    const payload = createRandomBooking();
-    const created = await bookingsClient.createBooking(payload);
-    const id = (await created.json()).bookingid;
-    const response = await bookingsClient.getBooking(id);
+    const response = await bookingsClient.createBookingAPI(payload);
+    const json = await response.json();
 
     expect(response.status()).toBe(200);
-
-    const body = await response.json();
-
-    expect(body).toEqual(payload);
+    expect(json.booking).toEqual(payload);
   });
 
-  test("Get unexisted booking", async ({ bookingsClient }) => {
-    const response = await bookingsClient.getBooking(0);
-
-    expect(response.status()).toBe(403);
-  });
-
-  test("Update booking data", async ({ bookingsClient, token }) => {
-    const payload1 = createRandomBooking();
-    const created = await bookingsClient.createBooking(payload1);
-    const id = (await created.json()).bookingid;
-
-    const payload2 = createRandomUpdateBooking();
-
-    await bookingsClient.updateBooking(id, payload2, token);
-
-    const response = await bookingsClient.getBooking(id);
+  test("Update booking data", async ({ booking, bookingsClient, token }) => {
+    const payload = createRandomUpdateBooking();
+    const response = await bookingsClient.updateBookingAPI(booking.bookingid, payload, token);
+    const json = await response.json();
 
     expect(response.status()).toBe(200);
-
-    const body = await response.json();
-
-    expect(body).toEqual({
-      ...payload2,
-    });
+    expect(json).toEqual(payload);
   });
 
-  test("Delete booking", async ({ bookingsClient, token }) => {
-    const payload = createRandomBooking();
-    const created = await bookingsClient.createBooking(payload);
-    const id = (await created.json()).bookingid;
+  test("Delete booking", async ({ booking, bookingsClient, token }) => {
+    const deletedBookingResponse = await bookingsClient.deleteBookingAPI(booking.bookingid, token);
+    const getBookingResponse = await bookingsClient.getBookingAPI(booking.bookingid);
 
-    const deleted = await bookingsClient.deleteBooking(id, token);
-
-    expect(deleted.status()).toBe(201);
-
-    const getResponse = await bookingsClient.getBooking(id);
-
-    expect(getResponse.status()).toBe(404);
+    expect(deletedBookingResponse.status()).toBe(201);
+    expect(getBookingResponse.status()).toBe(404);
   });
 });

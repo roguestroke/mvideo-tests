@@ -1,13 +1,14 @@
-import { createRandomBooking } from "../utils/fakers";
-import { Booking } from "../types/booking.types";
+
+import { CreateBookingResponse } from "../types/booking.types";
 import { getDefaultAPIContext } from "../utils/default-context";
 import { getAuthAPIClient } from "../api/auth-api-client";
 import { BookingsApiClient } from "../api/booking-api-client";
 import { Fixtures } from "@playwright/test";
+import { createRandomBooking } from "../utils/booking";
 
 export type BookingsFixture = {
   bookingsClient: BookingsApiClient;
-  booking: Booking;
+  booking: CreateBookingResponse;
   token: string;
 };
 
@@ -21,7 +22,7 @@ export const apiFixtures: Fixtures<BookingsFixture> = {
 
   booking: async ({ bookingsClient }, use) => {
     const randomBooking = createRandomBooking();
-    const booking = await bookingsClient.createBookingAPI(randomBooking);
+    const booking = await bookingsClient.createBooking(randomBooking);
 
     await use(booking);
   },
@@ -31,7 +32,7 @@ export const apiFixtures: Fixtures<BookingsFixture> = {
 
     const response = await authClient.getAuthTokenApi();
     const { token } = await response.json();
-    
+
     await use(token);
   },
 };

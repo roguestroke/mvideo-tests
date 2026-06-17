@@ -1,40 +1,24 @@
-import { faker } from "@faker-js/faker";
-import { Booking, UpdateBooking } from "../types/booking.types";
+const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const NUMBERS = '0123456789';
+const LETTERS_WITH_NUMBERS = LETTERS + NUMBERS;
 
-export const createRandomBooking = (): Booking => {
-  const checkin = faker.date.soon({ days: 5 });
-  const checkout = faker.date.soon({ days: 10, refDate: checkin });
+export const randomNumber = (start: number = 500, end: number = 2000): number =>
+  Math.floor(Math.random() * (end - start + 1)) + start;
 
-  return {
-    firstname: faker.person.firstName(),
-    lastname: faker.person.lastName(),
-    totalprice: faker.number.int({ min: 50, max: 500 }),
-    depositpaid: faker.datatype.boolean(),
-    bookingdates: {
-      checkin: checkin.toISOString().split("T")[0],
-      checkout: checkout.toISOString().split("T")[0],
-    },
-    additionalneeds: faker.helpers.arrayElement([
-      "Breakfast",
-      "Lunch",
-      "Dinner",
-      "None",
-    ]),
-  };
+export const randomString = (start: number = 10, end: number = 20, charSet: string = LETTERS_WITH_NUMBERS): string => {
+  let result = '';
+  const length = randomNumber(start, end);
+  for (let index = 0; index < length; index++) {
+    const randomPoz = Math.floor(Math.random() * charSet.length);
+    result += charSet.substring(randomPoz, randomPoz + 1);
+  }
+  return result;
 };
 
-export const createRandomUpdateBooking = (): UpdateBooking => ({
-  firstname: faker.person.firstName(),
-  lastname: faker.person.lastName(),
-  totalprice: faker.number.int({ min: 200, max: 1000 }),
-  depositpaid: faker.datatype.boolean(),
-  bookingdates: {
-    checkin: faker.date.soon().toISOString().split("T")[0],
-    checkout: faker.date.soon({ days: 7 }).toISOString().split("T")[0],
-  },
-  additionalneeds: faker.helpers.arrayElement([
-    "Breakfast",
-    "Spa",
-    "Dinner",
-  ]),
-});
+export const randomBoolean = (): boolean => Math.random() < 0.5;
+
+export const randomDateStr = (): string => {
+  const date = new Date();
+  date.setDate(date.getDate() + randomNumber(1, 30));
+  return date.toISOString().split('T')[0];
+};
