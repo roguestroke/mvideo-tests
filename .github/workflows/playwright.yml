@@ -9,16 +9,39 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
-      - run: npx playwright install --with-deps
-      - run: npx playwright test
-      - run: npx allure generate allure-results --clean
-      - uses: actions/upload-artifact@v4
+
+      - name: Install dependencies
+        run: |
+          echo "=== Installing dependencies ==="
+          npm ci
+
+      - name: Install Playwright Browsers
+        run: |
+          echo "=== Installing system dependencies and browsers ==="
+          npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: |
+          echo "=== Running automation tests ==="
+          npx playwright test
+
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          echo "=== Generating Allure report ==="
+          npx allure generate allure-results --clean
+
+      - name: Upload Allure Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report
