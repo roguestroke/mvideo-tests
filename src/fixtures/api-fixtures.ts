@@ -1,4 +1,3 @@
-
 import { CreateBookingResponse } from "../types/booking.types";
 import { getDefaultAPIContext } from "../utils/default-context";
 import { getAuthAPIClient } from "../api/auth-api-client";

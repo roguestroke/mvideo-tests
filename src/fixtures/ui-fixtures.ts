@@ -2,6 +2,7 @@ import { Fixtures, Page } from "@playwright/test";
 import { HomePage } from "../pages/HomePage";
 import { SearchResultsPage } from "../pages/SearchResultsPage";
 import { CartPage } from "../pages/CartPage";
+import { ContextPagesFixture } from "./context-pages";
 
 export type PagesFixture = {
   page: Page;
@@ -10,17 +11,17 @@ export type PagesFixture = {
   cartPage: CartPage;
 };
 
-export const pagesFixture: Fixtures<PagesFixture> = {
-  homePage: async ({ page }, use) => {
-    const homePage = new HomePage(page);
+export const pagesFixture: Fixtures<PagesFixture, ContextPagesFixture> = {
+  homePage: async ({ contextPage }, use) => {
+    const homePage = new HomePage(contextPage);
     await use(homePage);
   },
-  searchResultsPage: async ({ page }, use) => {
-    const searchResultsPage = new SearchResultsPage(page);
+  searchResultsPage: async ({ contextPage }, use) => {
+    const searchResultsPage = new SearchResultsPage(contextPage);
     await use(searchResultsPage);
   },
-  cartPage: async ({ page }, use) => {
-    const cartPage = new CartPage(page);
+  cartPage: async ({ contextPage }, use) => {
+    const cartPage = new CartPage(contextPage);
     await use(cartPage);
   },
 };

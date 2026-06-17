@@ -6,7 +6,7 @@ export class SearchField {
 
   constructor(public page: Page) {
     this.searchInput = page.locator('input[placeholder="Поиск в М.Видео"]');
-    this.searchButton = page.locator('button.main-search__submit');
+    this.searchButton = page.locator("button.main-search__submit");
   }
 
   async searchProduct(productName: string) {

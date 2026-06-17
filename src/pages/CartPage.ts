@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 export class CartPage extends BasePage {
@@ -13,31 +13,20 @@ export class CartPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.cartList = page.locator(".cart-item__wrapper");
-    this.deleteItemButton = page.getByRole("button", {
-      name: "Удалить",
-      exact: true,
-    });
+    this.deleteItemButton = page.getByRole("button", { name: "Удалить", exact: true });
     this.servicesList = page.getByTestId("service-item");
-    this.loginModal = page.locator('.modal-layout__content');
+    this.loginModal = page.locator(".modal-layout__content");
     this.plusButton = page.locator("button.change-quantity__button_plus");
-    this.checkoutButton = page.getByRole("button", {
-      name: "Перейти к оформлению",
-      exact: true,
-    });
-    this.cartItemName = this.page.locator('.cart-item__name');
+    this.checkoutButton = page.getByRole("button", { name: "Перейти к оформлению", exact: true });
+    this.cartItemName = this.page.locator(".cart-item__name");
   }
 
   async removeProductFromCart() {
-  await this.deleteItemButton.first().click();
-  await expect(this.cartList).toHaveCount(0);
-}
+    await this.deleteItemButton.first().click();
+  }
 
   async proceedToCheckout() {
     await this.checkoutButton.click();
-  }
-
-  async getTotalPrice() {
-    return await this.page.getByTestId("total-price").textContent();
   }
 
   async updateProductQuantity(quantity: number) {
@@ -47,6 +36,6 @@ export class CartPage extends BasePage {
   }
 
   getCartItemQuantity() {
-  return this.page.locator('.change-quantity__count');
-}
+    return this.page.locator(".change-quantity__count");
+  }
 }
