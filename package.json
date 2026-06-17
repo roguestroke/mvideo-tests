@@ -1,0 +1,29 @@
+{
+  "name": "mvideo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright tests/ui --headed",
+    "test:debug": "playwright test --debug",
+    "test:api": "playwright test tests/api",
+    "test:ui": "playwright test tests/ui",
+    "allure:serve": "allure serve allure-results",
+    "test:ci": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.3",
+    "allure-commandline": "^2.42.1",
+    "allure-playwright": "^3.10.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.4.0",
+    "ajv": "^8.20.0",
+    "dotenv": "^17.4.2"
+  }
+}
