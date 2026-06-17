@@ -29,8 +29,11 @@ jobs:
           npx playwright install --with-deps
 
       - name: Run Playwright tests
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
         run: |
-          echo "=== Running automation tests ==="
+          echo "=== Running tests ==="
           npx playwright test
 
       - name: Generate Allure Report
